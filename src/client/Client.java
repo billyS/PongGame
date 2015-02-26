@@ -24,7 +24,7 @@ class Client {
   private static String gameToView = "0";
   private NetMCReader mcReader =null;
   String clientTime = "";
-  //private ContactTimeServer time;
+  private ContactTimeServer time;
   
   public Client(String role){
 	 this.role = role;
@@ -80,8 +80,8 @@ class Client {
           DEBUG.trace( "Client.makeContactWithServer TCP" );
           
           tcpS = new Socket(Global.TCP_SERVER_ADDR, Global.TCP_PORT);
-          //time = new ContactTimeServer();
-          //time.start();
+          time = new ContactTimeServer();
+          time.start();
           player = new C_Player(model, tcpS);
           cont.setWriter(player.getWriter());
           DEBUG.trace( "before player.start() : tcpSocket: " + tcpS + "player: " + player );
@@ -93,7 +93,6 @@ class Client {
           break;
         case "MC" :
         	
-        	 //tcpS = new Socket(Global.MC_ADDR, Global.MC_PORT);  //MC socket to send bat state to server
         	 mcReader = new NetMCReader(Global.MC_PORT, Global.MC_ADDR);
         	 player = new C_Player(model, mcReader, gameToView); 
              cont.setWriter(player.getWriter());
@@ -112,7 +111,7 @@ class Client {
 }
  
 
-/*class ContactTimeServer extends Thread {
+class ContactTimeServer extends Thread {
   private Socket theSocket;                      					// Socket used
   private NetStringReader  theIn;                 				// Input stream
   private NetStringWriter theOut;
@@ -151,4 +150,4 @@ class Client {
       }
   }
 
-}*/
+}
